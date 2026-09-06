@@ -1,0 +1,265 @@
+/* ============================================================
+   七夕 · 浪漫爱心树 —— 主题样式
+   夜空玫瑰渐变 + 毛玻璃卡片 + 优雅衬线字体
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    /* 深邃玫瑰夜空：紫 → 玫瑰 → 暖橙 */
+    background: linear-gradient(135deg, #0d0620 0%, #2a0a3a 28%, #52112f 58%, #7a1f3d 82%, #a3314f 100%);
+    background-attachment: fixed;
+    font-family: "Georgia", "STKaiti", "KaiTi", "楷体", "微软雅黑", sans-serif;
+    color: #fff5f0;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* 星空粒子层（由 canvas 绘制） */
+#stars-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 柔和光晕层 */
+#main {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+/* 开场封面 */
+#cover {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 38%, rgba(186, 73, 109, 0.55), rgba(13, 6, 32, 0.94) 72%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+    cursor: pointer;
+}
+#cover.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.cover-heart {
+    font-size: 72px;
+    animation: coverBeat 1.6s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 110, 150, 0.95), 0 0 70px rgba(255, 90, 130, 0.6);
+    line-height: 1.2;
+    margin-bottom: 18px;
+}
+.cover-title {
+    font-size: 34px;
+    letter-spacing: 0.18em;
+    color: #ffe3ec;
+    text-shadow: 0 0 24px rgba(255, 140, 170, 0.8);
+    margin-bottom: 12px;
+}
+.cover-sub {
+    font-size: 17px;
+    color: rgba(255, 225, 235, 0.85);
+    letter-spacing: 0.4em;
+    margin-bottom: 40px;
+}
+.cover-tip {
+    font-size: 14px;
+    color: rgba(255, 210, 225, 0.7);
+    letter-spacing: 0.15em;
+    border: 1px solid rgba(255, 180, 200, 0.35);
+    padding: 10px 26px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.06);
+    animation: tipGlow 2.2s ease-in-out infinite;
+}
+
+@keyframes coverBeat {
+    0%, 100% { transform: scale(1); }
+    12%      { transform: scale(1.14); }
+    24%      { transform: scale(1); }
+    36%      { transform: scale(1.1); }
+    48%      { transform: scale(1); }
+}
+@keyframes tipGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 150, 180, 0); }
+    50%      { box-shadow: 0 0 26px rgba(255, 150, 180, 0.35); }
+}
+
+/* 主画布容器 */
+#wrap {
+    position: relative;
+    margin: 0 auto;
+    width: 1100px;
+    height: 680px;
+    max-width: 96vw;
+}
+
+/* 打字机情书玻璃卡片 */
+#text {
+    position: absolute;
+    left: 30px;
+    top: 70px;
+    width: 430px;
+    max-width: 92%;
+    z-index: 5;
+}
+#code {
+    display: none;
+    font-size: 16.5px;
+    line-height: 1.85;
+    color: #ffeef3;
+    text-shadow: 0 0 12px rgba(255, 120, 160, 0.45);
+    background: rgba(20, 8, 32, 0.42);
+    border: 1px solid rgba(255, 190, 210, 0.22);
+    border-radius: 18px;
+    padding: 24px 26px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), inset 0 0 30px rgba(255, 150, 180, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+#code font {
+    color: #ffd9e4;
+}
+#code .say {
+    color: #ffeef3;
+}
+#code .sign {
+    margin-top: 6px;
+    color: #ffc2d2;
+    letter-spacing: 0.1em;
+    font-style: italic;
+}
+
+/* 相恋计时 */
+#clock-box {
+    position: absolute;
+    left: 30px;
+    top: 545px;
+    font-size: 22px;
+    color: #ffe3ec;
+    display: none;
+    z-index: 5;
+    text-shadow: 0 0 14px rgba(255, 110, 150, 0.55);
+    line-height: 1.6;
+}
+#clock-box .hearts {
+    font-size: 20px;
+}
+#clock-box img {
+    width: 22px;
+    height: 17px;
+    vertical-align: -3px;
+    filter: drop-shadow(0 0 5px rgba(255, 90, 130, 0.7));
+}
+#clock-box .label {
+    color: #ffb7c9;
+    letter-spacing: 0.08em;
+}
+#clock {
+    margin-top: 4px;
+}
+#clock .digit {
+    font-size: 44px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 0 18px rgba(255, 130, 165, 0.9), 0 0 40px rgba(255, 90, 130, 0.5);
+    padding: 0 2px;
+}
+
+/* 爱心树画布 */
+#canvas {
+    display: block;
+    margin: 0 auto;
+    width: 1100px;
+    height: 680px;
+    border-radius: 20px;
+}
+
+/* 音乐控制按钮 */
+#music-toggle {
+    position: fixed;
+    right: 22px;
+    top: 22px;
+    z-index: 60;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 190, 210, 0.4);
+    background: rgba(24, 8, 36, 0.45);
+    color: #ffd0dd;
+    font-size: 20px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+#music-toggle:hover {
+    transform: scale(1.12);
+    background: rgba(120, 30, 60, 0.6);
+}
+#music-toggle.paused {
+    opacity: 0.55;
+}
+
+/* 浏览器兼容提示 */
+#error {
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 40px;
+    display: none;
+    color: #ffd9e4;
+    font-size: 15px;
+}
+#error a { color: #ff9db8; }
+
+/* 光标 */
+.hand { cursor: pointer; }
+.say { margin-left: 4px; }
+.space { margin-right: 150px; }
+
+/* 打字光标 */
+#code .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    vertical-align: -2px;
+    background: #ff7ba3;
+    margin-left: 2px;
+    animation: blink 0.8s step-end infinite;
+    border-radius: 2px;
+}
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* ========== 小屏适配 ========== */
+@media (max-width: 1150px) {
+    #wrap { transform: scale(0.86); transform-origin: top center; }
+    #clock-box { top: 545px; left: 20px; }
+}
+@media (max-width: 900px) {
+    #wrap { transform: scale(0.72); transform-origin: top center; }
+}
+@media (max-width: 700px) {
+    #wrap { transform: scale(0.58); transform-origin: top center; }
+    #code { font-size: 15px; }
+    .cover-title { font-size: 26px; }
+    .cover-heart { font-size: 56px; }
+}
