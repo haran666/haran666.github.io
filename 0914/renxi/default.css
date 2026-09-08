@@ -320,7 +320,7 @@ body {
     filter: drop-shadow(0 0 5px rgba(255, 90, 130, 0.7));
 }
 #clock-box .label {
-    color: #ffb7c9;
+    color: #ffe3ec;
     letter-spacing: 0.08em;
 }
 #clock {
