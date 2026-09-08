@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 	<title>🎂💞💗🎁宝宝生日快乐！！！</title>
     <link type="text/css" rel="stylesheet" href="./renxi/default.css">
 	<script type="text/javascript" src="./renxi/jquery.min.js"></script>
@@ -34,8 +34,8 @@
 			<div class="cake-plate"></div>
 		</div>
 		<div class="cover-title">生日快乐</div>
-		<div class="cover-sub">给我最爱的田~</div>
-		<div class="cover-tip">点下屏幕👆👆👆，吹灭蜡烛💨💨💨</div>
+		<div class="cover-sub">我最爱的田</div>
+		<div class="cover-tip">点下屏幕👆👆👆</div>
 	</div>
 
 	<div id="main">
@@ -45,22 +45,13 @@
 				<div id="code">
 					<font>
 						<span class="say">亲爱的田，祝你生日快乐🎂</span><br>
-						<span class="say"> </span><br>
 						<span class="say">过的真快，看看下面，咱们都在一起那么长时间啦</span><br>
-						<span class="say"> </span><br>
 						<span class="say">有你陪着的的时光，总是过的那么幸福</span><br>
-						<span class="say"> </span><br>
 						<span class="say">虽然这么长时间都没怎么见面</span><br>
-						<span class="say"> </span><br>
 						<span class="say">但我知道我心里有你，你心里有我</span><br>
-						<span class="say"> </span><br>
 						<span class="say">那些甜言蜜语我也不是很会说</span><br>
-						<span class="say"> </span><br>
 						<span class="say">只愿以后每一个七夕，都有你的陪伴</span><br>
-						<span class="say"> </span><br>
 						<span class="say">在以后的时光里，我们一起努力，一起加油</span><br>
-						<span class="say"> </span><br>
-						<span class="say"> </span><br>
 						<span class="say sign">--爱你的超鹏--</span>
 					</font>
 				</div>
@@ -74,6 +65,33 @@
 	</div>
 
 	<script>
+	/* ---- 自适应缩放：窄屏(<=700px)交给 CSS 重排，不做整体缩放；宽屏按比例缩放 ---- */
+	function fitPage() {
+		var vw = window.innerWidth;
+		var vh = window.innerHeight;
+		var wrap = document.getElementById('wrap');
+		if (!wrap) return;
+		if (vw <= 700) {
+			/* 手机端：CSS 媒体查询负责重排，这里还原任何缩放 */
+			wrap.style.transform = '';
+			wrap.style.marginTop = '';
+			return;
+		}
+		/* 画布基准 1100x680，留少量余量 */
+		var s = Math.min(vw / 1120, (vh - 24) / 700, 1);
+		s = Math.max(0.25, s);
+		wrap.style.transform = 'scale(' + s + ')';
+		wrap.style.transformOrigin = 'top center';
+		if (s < 1) {
+			var visH = 680 * s;
+			wrap.style.marginTop = Math.max(0, Math.round((vh - visH) / 2 - 16)) + 'px';
+		} else {
+			wrap.style.marginTop = '';
+		}
+	}
+	window.addEventListener('resize', fitPage);
+	fitPage();
+
 	/* ---- 星空粒子背景 ---- */
 	(function() {
 		var c = document.getElementById('stars-canvas');
@@ -135,13 +153,13 @@
 		if (musicOn) pauseMusic(); else playMusic();
 	});
 
-	/* ---- 开场封面 ---- */
+	/* ---- 开场封面：点击吹灭蜡烛 ---- */
 	var cover = document.getElementById('cover');
 	cover.addEventListener('click', function() {
 		if (cover.classList.contains('hidden')) return;
 		document.getElementById('cake').classList.add('blown');
 		playMusic();
-		/* 等吹蜡烛动画播完，再淡出封面并自动开始后面的树动画 */
+		/* 等吹蜡烛动画播完，再淡出封面并自动开始后面的动画 */
 		setTimeout(function() { cover.classList.add('hidden'); }, 1150);
 		setTimeout(function() { window.__autoStart = true; }, 1400);
 		setTimeout(function() { cover.style.display = 'none'; }, 2600);
@@ -150,8 +168,9 @@
 	(function() {
 		var canvas = $('#canvas');
 		if (!canvas[0].getContext) { $("#error").show(); return false; }
-		var width = canvas.width();
-		var height = canvas.height();
+		/* 使用画布原始属性尺寸（1100x680），避免 CSS 缩放影响动画坐标系 */
+		var width = parseInt(canvas.attr("width"), 10) || canvas.width();
+		var height = parseInt(canvas.attr("height"), 10) || canvas.height();
 		canvas.attr("width", width);
 		canvas.attr("height", height);
 		var opts = {

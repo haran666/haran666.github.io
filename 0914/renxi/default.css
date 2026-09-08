@@ -401,17 +401,44 @@ body {
     50% { opacity: 0; }
 }
 
-/* ========== 小屏适配 ========== */
-@media (max-width: 1150px) {
-    #wrap { transform: scale(0.86); transform-origin: top center; }
-    #clock-box { top: 545px; left: 20px; }
-}
-@media (max-width: 900px) {
-    #wrap { transform: scale(0.72); transform-origin: top center; }
-}
+/* ========== 小屏适配 ==========
+   手机端（<=700px）不做整体缩放，而是重排布局：
+   爱心树自适应屏幕宽度，情书与计时器以正常字号依次排在下方，
+   保证一屏（或轻微滚动）内完整、可读地看到全部内容 */
 @media (max-width: 700px) {
-    #wrap { transform: scale(0.58); transform-origin: top center; }
+    body { background-attachment: scroll; }
+    #wrap {
+        width: 100%;
+        height: auto;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #canvas {
+        order: 1;
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+    #text {
+        order: 2;
+        position: static;
+        width: 90%;
+        max-width: 430px;
+        margin: 14px auto 0;
+    }
+    #clock-box {
+        order: 3;
+        position: static;
+        margin: 12px auto 24px;
+        text-align: center;
+        font-size: 19px;
+    }
+    #clock .digit { font-size: 34px; }
     #code { font-size: 15px; }
     .cover-title { font-size: 26px; }
-    .cake { transform: scale(0.8); }
+    .cover-sub { letter-spacing: 0.3em; }
+    .cake { transform: scale(0.78); }
+    #music-toggle { width: 44px; height: 44px; font-size: 18px; }
 }
