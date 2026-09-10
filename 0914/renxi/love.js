@@ -199,21 +199,19 @@
     }
     Footer.prototype = {
         draw: function() {
-            var ctx = this.tree.ctx, point = this.point;
-            var len = this.length / 2;
+            var ctx = this.tree.ctx;
+            var y = this.tree.height - this.height / 2;
 
             ctx.save();
-            ctx.strokeStyle = 'rgba(255, 205, 220, 0.75)';
+            ctx.strokeStyle = 'rgba(255, 205, 220, 0.95)';
             ctx.shadowColor = 'rgba(255, 150, 180, 0.6)';
             ctx.shadowBlur = 8;
             ctx.lineWidth = this.height;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.translate(point.x, point.y);
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-    	    ctx.lineTo(len, 0);
-    	    ctx.lineTo(-len, 0);
+            ctx.moveTo(0, y);
+            ctx.lineTo(this.width, y);
             ctx.stroke();
             ctx.restore();
 
