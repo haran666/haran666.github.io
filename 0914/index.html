@@ -192,6 +192,10 @@
 		var seed = tree.seed;
 		var foot = tree.footer;
 		var hold = 1;
+		/* 离屏画布：固化“树+地面”的最终画面，供飘花循环每帧重绘，保证树在任何设备上常驻 */
+		var off = document.createElement('canvas');
+		off.width = width;
+		off.height = height;
 		canvas.click(function(e) {
 			var offset = canvas.offset(), x, y;
 			x = e.pageX - offset.left;
@@ -225,12 +229,14 @@
 			foot.draw();
 			tree.snapshot("p2", 500, 0, 610, 680);
 			canvas.parent().css("background", "url(" + tree.toDataURL('image/png') + ")");
+			off.getContext('2d').drawImage(canvas[0], 0, 0);
 			$await(Jscex.Async.sleep(300));
 		}));
 		var jumpAnimate = eval(Jscex.compile("async", function () {
 			var ctx = tree.ctx;
 			while (true) {
-				tree.ctx.clearRect(0, 0, width, height);
+				ctx.clearRect(0, 0, width, height);
+				ctx.drawImage(off, 0, 0);
 				tree.jump();
 				foot.draw();
 				$await(Jscex.Async.sleep(25));

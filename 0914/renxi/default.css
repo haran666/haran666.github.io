@@ -414,8 +414,8 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
+        /* 树已固化在 canvas 上，背景图仅用于桌面端，手机端不显示以免拉伸变形 */
+        background-image: none !important;
     }
     #canvas {
         order: 1;
@@ -428,17 +428,21 @@ body {
         position: static;
         width: 90%;
         max-width: 430px;
-        margin: 14px auto 0;
+        margin: 8px auto 0;
     }
     #clock-box {
         order: 3;
         position: static;
-        margin: 12px auto 24px;
+        margin: 10px auto 16px;
         text-align: center;
-        font-size: 19px;
+        font-size: 17px;
     }
-    #clock .digit { font-size: 34px; }
-    #code { font-size: 15px; }
+    #clock .digit { font-size: 30px; }
+    #code {
+        font-size: 15px;
+        line-height: 1.5;
+        padding: 12px 16px;
+    }
     .cover-title { font-size: 26px; }
     .cover-sub { letter-spacing: 0.3em; }
     .cake { transform: scale(0.78); }
